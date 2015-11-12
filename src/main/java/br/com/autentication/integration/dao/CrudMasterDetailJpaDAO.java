@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import br.com.autentication.integration.repository.CrudMasterDetailRepository;
 
 
-public class CrudMasterDetailJpaDAO<E,K> implements CrudMasterDetailRepository<E,K> {
+public class CrudMasterDetailJpaDAO<E> implements CrudMasterDetailRepository<E> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudMasterDetailJpaDAO.class);
     protected final Class<E> entityClass; 
@@ -23,10 +23,12 @@ public class CrudMasterDetailJpaDAO<E,K> implements CrudMasterDetailRepository<E
     }
     
     @Override
-    public E getByPrimaryKey(K pk) {
+    public E getByPrimaryKey(long id) {
         try {
-            LOGGER.info("getByPrimaryKey class {} pk {}", entityClass, pk);
-            return entityManager.find(entityClass, pk);
+            LOGGER.info("findById class {} id {}", entityClass, id);
+            return entityManager.createNamedQuery(entityClass.getSimpleName() + ".findById", entityClass)
+                    .setParameter("id", id)
+                    .getSingleResult();
         } catch (PersistenceException pe) {
         	LOGGER.error("getByPrimaryKey() - ",pe);
             throw pe;
