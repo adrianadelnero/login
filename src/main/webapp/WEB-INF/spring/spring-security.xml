@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+ 
+ 	<security:global-method-security pre-post-annotations="enabled"/> 
+    
+    
+    <security:http security="none" pattern="/resources/**"/>
+    <security:http auto-config="true" use-expressions="true"
+            entry-point-ref="notAuthorizedEntryPoint">
+        <security:http-basic entry-point-ref="notAuthorizedEntryPoint"/>
+
+        <!--PERMISSOES-->
+        <security:intercept-url pattern="/logout" access="permitAll"/>
+        <security:intercept-url pattern="/about" access="permitAll"/>
+
+        <security:intercept-url pattern="/**" method="OPTIONS" access="permitAll"/>
+
+        <security:intercept-url pattern="/**"    access="hasRole('ROLE_USUARIO')"/>
+
+        <!--Sobrecarga dos handlers default para comportamento Restfull-->
+        <security:logout logout-url="/logout" delete-cookies="JSESSIONID"
+                invalidate-session="true"
+                success-handler-ref="restLogoutSuccessHandler"/>
+
+        <security:access-denied-handler ref="restAccessDeniedHandler"/>
+        <security:form-login login-processing-url="/login"
+                             username-parameter="user" password-parameter="password"
+                             authentication-success-handler-ref="restAuthenticationSuccessHandler"
+                             authentication-failure-handler-ref="restAuthenticationFailureHandler"
+                             authentication-details-source-ref="authenticationDetailsSrc"
+        />
+        <!--Tratamento para CORS -->
+        <security:custom-filter before="FORM_LOGIN_FILTER" ref="corsFilter"/>
+
+        <security:session-management>
+            <security:concurrency-control />
+        </security:session-management>
+    </security:http>
+    
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="loginComponent" />
+    </security:authentication-manager>
+    
+	<bean id="corsFilter" class="br.com.authentication.security.CORSSpringSecurityFilter"/>
+
+</beans>
