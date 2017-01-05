@@ -17,6 +17,8 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter{
 		
 		if(isUsuarioLogado(request) || uriDeveSerIgnorada(uri)){
 			return true;
+		}else if(uri.endsWith("logout")){
+			request.getSession().invalidate();
 		}
 		
 		response.sendRedirect("/login");
@@ -26,7 +28,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter{
 	}
 	
 	private boolean uriDeveSerIgnorada(String uri){
-		return uri.contains("login") || uri.contains("logout")	|| uri.endsWith("cadastro")	;
+		return uri.contains("login") || uri.endsWith("about");
 	}
 	
 	private boolean isUsuarioLogado(HttpServletRequest request){
