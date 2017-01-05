@@ -3,6 +3,7 @@ package br.com.authentication.integration.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -10,7 +11,6 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +51,7 @@ public class LoginDao extends CrudMasterDetailJpaDAO<Login> implements LoginRepo
 		
 		try{
 			return entityManager.createQuery(cq).getSingleResult();
-		}catch (EmptyResultDataAccessException emptyEx) {
+		}catch (NoResultException emptyEx) {
 	        LOGGER.debug("LoginDao.buscarPor () - Nao foi encontrado cadastro com o email informado");
 	        return null;
 	    }

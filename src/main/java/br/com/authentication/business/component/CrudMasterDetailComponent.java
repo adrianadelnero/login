@@ -8,6 +8,6 @@ public interface CrudMasterDetailComponent<E,K> {
 	List<E> findAll();
 	void insert(E e);
 	E update(E e);
-	void delete(K pk);
+	void delete(K k);
 
 }

@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<b:beans xmlns="http://www.springframework.org/schema/security"
-		 xmlns:b="http://www.springframework.org/schema/beans"
+<beans   xmlns="http://www.springframework.org/schema/beans"
+		 xmlns:security="http://www.springframework.org/schema/security"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http />
 
-<!-- <user-service>
+<!-- 	<security:http auto-config="true">
+		<security:logout logout-success-url="/login" invalidate-session="true" logout-url="/logout"/>
+		<security:intercept-url pattern="/admin**" access="ROLE_ADMIN" />
+	</security:http> -->
+	
+	<security:http />
+	
+    <!--  To test autentication
+    <user-service>
 		<user name="user" password="password" authorities="ROLE_USER" />
 	</user-service> -->
 	
-	<authentication-manager>
-		<authentication-provider ref="loginComponent"/>
-	</authentication-manager>
+	<security:authentication-manager>
+		<security:authentication-provider ref="loginComponent"/>
+	</security:authentication-manager>
 	
-	 <b:bean id="loginComponent" class="br.com.authentication.business.component.impl.LoginComponentImpl" />
+	<security:global-method-security secured-annotations="enabled"/>
+		
+	<bean id="loginComponent" class="br.com.authentication.business.component.impl.LoginComponentImpl" />
 
-
-</b:beans>
-
-
+</beans>

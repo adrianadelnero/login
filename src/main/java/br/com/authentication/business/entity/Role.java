@@ -17,13 +17,18 @@ public class Role {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="ROLE_ID")
     private long id;
 
-	@Column
+	@Column(name="ROLE_NOME")
     private String role;
 
     @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    @Column(name="ROLE_LOGIN_ID")
     private Set<Login> logins;
+    
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
 
 	public long getId() {
 		return id;

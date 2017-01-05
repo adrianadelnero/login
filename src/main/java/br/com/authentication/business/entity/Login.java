@@ -32,29 +32,30 @@ public class Login implements Serializable  {
 
 	private static final long serialVersionUID = 3488489358946758613L;
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="LOGIN_ID")
 	private BigDecimal id;
 	
-	@Column(nullable=false)
+	@Column(name="LOGIN_NOME", nullable=false)
 	private String nome;
 	
-	@Column(nullable=false, unique=true)	
+	@Column(name="LOGIN_EMAIL", nullable=false, unique=true)	
 	private String email;
 	
-	@Column(nullable=false)
+	@Column(name="LOGIN_SENHA", nullable=false)
 	private String senha;
 	
-	@Column(nullable=false)
+	@Column(name="LOGIN_STATUS", nullable=false)
 	private String status = Status.ATIVO.getStatusCode();
 	
-	@Column(nullable=false, unique=true)
+	@Column(name="LOGIN_CREATED", nullable=false, unique=true)
 	@Type(type="date")
 	private Date dataCriacao;
 	
-	@Column(nullable=true)
+	@Column(name="LOGIN_DT_ULTIMO_LOGIN", nullable=true)
 	@Type(type="date")
 	private Date dataUltimoLogin;
 	
-	@Column(nullable=true)
+	@Column(name="LOGIN_DT_ALTERACAO_SENHA", nullable=true)
 	@Type(type="date")
 	private Date dataAlteracaoSenha;
 	

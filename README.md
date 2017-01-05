@@ -1,6 +1,35 @@
-# login
+# Login  
 
 * Spring Security
 * Spring MVC
-* Spring Data JPA
+* Hibernate
 * Tomcat
+* Postgres
+:octocat:
+
+## Installation
+
+Environment preparing:
+
+### Postgres setup
+
+scripts/createSystemUser
+scripts/database-helper
+scripts/createCredencials
+
+### Installing dependencies
+
+```sh
+mvn clean install
+
+```
+
+## Testing
+
+http://localhost:8080/login
+User: admin
+Senha: 123456
+
+##Verify to build
+mvn findbugs:check
+

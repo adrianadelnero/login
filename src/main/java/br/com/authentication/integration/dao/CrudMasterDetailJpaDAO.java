@@ -1,5 +1,6 @@
 package br.com.authentication.integration.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,7 @@ public class CrudMasterDetailJpaDAO<E> implements CrudMasterDetailRepository<E> 
     }
     
     @Override
-    public E getByPrimaryKey(long id) {
+    public E getByPrimaryKey(BigDecimal id) {
         try {
             LOGGER.info("findById class {} id {}", entityClass, id);
             return entityManager.createNamedQuery(entityClass.getSimpleName() + ".findById", entityClass)
@@ -71,7 +72,7 @@ public class CrudMasterDetailJpaDAO<E> implements CrudMasterDetailRepository<E> 
     }
 
     @Override
-    public void delete(E e) {
+    public void delete(BigDecimal e) {
         try {
             LOGGER.info("delete class {} entity {}", entityClass, e);
             entityManager.remove(e);
