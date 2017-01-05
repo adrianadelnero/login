@@ -13,9 +13,9 @@ Environment preparing:
 
 ### Postgres setup
 
-scripts/createSystemUser
-scripts/database-helper
-scripts/createCredencials
+* scripts/createSystemUser
+* scripts/database-helper
+* scripts/createCredencials
 
 ### Installing dependencies
 
@@ -31,5 +31,8 @@ User: admin
 Senha: 123456
 
 ##Verify to build
+
+```sh
 mvn findbugs:check
 
+```
