@@ -6,8 +6,8 @@ import br.com.authentication.business.entity.Login;
 *
 * @author aromano
 */
-public interface LoginRepository {
+public interface LoginRepository extends CrudMasterDetailRepository<Login> {
 	
-	Login buscarPor(String email);
+	Login buscarPorEmail(String email);
 
 }

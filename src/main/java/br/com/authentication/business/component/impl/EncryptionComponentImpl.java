@@ -7,17 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import br.com.authentication.business.component.CriptografiaComponent;
-import br.com.authentication.integration.dao.CrudMasterDetailJpaDAO;
+import br.com.authentication.business.component.EncryptionComponent;
 
 /**
  *
  * @author aromano
  */
 @Component(value = "criptografiaComponent")
-public class CriptografiaComponentImpl implements CriptografiaComponent {
+public class EncryptionComponentImpl implements EncryptionComponent {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CrudMasterDetailJpaDAO.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EncryptionComponentImpl.class);
 
 	@Override
 	public String convertToHex(String senha){
@@ -25,7 +24,7 @@ public class CriptografiaComponentImpl implements CriptografiaComponent {
 		StringBuilder hexString;
 
 		try {
-			algorithm = MessageDigest.getInstance("SHA-2");
+			algorithm = MessageDigest.getInstance("SHA-1");
 
 			byte messageDigest[] = algorithm.digest(senha.getBytes("UTF-8"));		 
 			hexString = new StringBuilder();

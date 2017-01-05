@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.authentication.business.entity.Login;
 import br.com.authentication.integration.repository.LoginRepository;
@@ -20,6 +21,7 @@ import br.com.authentication.integration.repository.LoginRepository;
 *
 * @author aromano
 */
+@Transactional
 @Repository(value = "loginRepository")
 public class LoginDao extends CrudMasterDetailJpaDAO<Login> implements LoginRepository {
 	
@@ -30,7 +32,7 @@ public class LoginDao extends CrudMasterDetailJpaDAO<Login> implements LoginRepo
 	}
 	
 	@Override
-	public Login buscarPor(String email){
+	public Login buscarPorEmail(String email){
 		
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Login> cq = cb.createQuery(Login.class);
@@ -50,10 +52,9 @@ public class LoginDao extends CrudMasterDetailJpaDAO<Login> implements LoginRepo
 		try{
 			return entityManager.createQuery(cq).getSingleResult();
 		}catch (EmptyResultDataAccessException emptyEx) {
-	        LOGGER.debug("buscarPor () - Nao foi encontrado cadastro com o email informado");
+	        LOGGER.debug("LoginDao.buscarPor () - Nao foi encontrado cadastro com o email informado");
 	        return null;
 	    }
 
 	}
-
 }

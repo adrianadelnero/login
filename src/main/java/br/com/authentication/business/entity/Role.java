@@ -1,41 +1,51 @@
 package br.com.authentication.business.entity;
 
-import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@Entity(name="role")
+@Entity
 @Table(name="ROLE")
-public class Role implements Serializable  {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -76928370226369096L;
-
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+public class Role {
 	
-	@Column(name="role_name",nullable=false)
-	private String roleName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	public int getId() {
+	@Column
+    private String role;
+
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    private Set<Login> logins;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRole(String role) {
+		this.role = role;
 	}
+
+	public Set<Login> getLogins() {
+		return logins;
+	}
+
+	public void setLogins(Set<Login> logins) {
+		this.logins = logins;
+	} 
 }

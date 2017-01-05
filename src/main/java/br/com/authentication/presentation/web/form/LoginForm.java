@@ -8,6 +8,7 @@ public class LoginForm {
 
     private String idUsuario;
     private String senha;
+    
 	public String getIdUsuario() {
 		return idUsuario;
 	}

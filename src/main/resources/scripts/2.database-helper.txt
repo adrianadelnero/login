@@ -1,0 +1,16 @@
+sudo -u postgres psql
+
+CREATE USER login WITH PASSWORD 'login';
+
+CREATE DATABASE login OWNER login;
+
+\q
+
+## Para conectar especificando usuário
+psql -d postgres;
+
+##Informacoes da conexao
+\conninfo
+
+GRANT ALL PRIVILEGES ON DATABASE login to login;
+

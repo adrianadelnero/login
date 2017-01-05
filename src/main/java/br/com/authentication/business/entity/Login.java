@@ -1,8 +1,9 @@
 package br.com.authentication.business.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,56 +14,69 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="LOGIN")
 @NamedQueries({
 	@NamedQuery(name = "Login.findById", query = "SELECT l from Login l WHERE l.id = :id") 
 })
-public class Login  implements Serializable  {
+public class Login implements Serializable  {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3488489358946758613L;
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-	private String nome;
-	@Column(nullable=false, unique=true)
-	private String email;
+	private BigDecimal id;
+	
 	@Column(nullable=false)
-	private String senha;	
+	private String nome;
+	
+	@Column(nullable=false, unique=true)	
+	private String email;
+	
+	@Column(nullable=false)
+	private String senha;
+	
+	@Column(nullable=false)
+	private String status = Status.ATIVO.getStatusCode();
+	
 	@Column(nullable=false, unique=true)
-	private String status;
-	@Column(nullable=false, unique=true)
+	@Type(type="date")
 	private Date dataCriacao;
-	@Column(nullable=false, unique=true)
+	
+	@Column(nullable=true)
+	@Type(type="date")
 	private Date dataUltimoLogin;
-	@Column(nullable=false, unique=true)
+	
+	@Column(nullable=true)
+	@Type(type="date")
 	private Date dataAlteracaoSenha;
+	
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+   
+    @PrePersist
+    public void prePersist() {
+        this.dataCriacao = new Date();
+        this.dataUltimoLogin = new Date();
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        this.dataUltimoLogin = new Date();
+    }
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name="LOGIN_ROLE", joinColumns={@JoinColumn(name="LOGIN_ID", referencedColumnName="id")}, inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="id")})
-	private List<Role> roleList;
-
-	public List<Role> getRoleList() {
-		return roleList;
-	}
-
-	public void setRoleList(List<Role> roleList) {
-		this.roleList = roleList;
-	}
-
-
-	public int getId() {
+	public BigDecimal getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(BigDecimal id) {
 		this.id = id;
 	}
 	public String getNome() {
@@ -107,4 +121,10 @@ public class Login  implements Serializable  {
 	public void setDataAlteracaoSenha(Date dataAlteracaoSenha) {
 		this.dataAlteracaoSenha = dataAlteracaoSenha;
 	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}	
 }
